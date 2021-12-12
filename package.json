@@ -1,0 +1,21 @@
+{
+  "name": "@sensible-contract/abstract-provider",
+  "version": "1.0.0",
+  "description": "abstract provider for sensible sdk",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "compile": "tsc -b tsconfig.json",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "sensiblecontract.org",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {}
+}
