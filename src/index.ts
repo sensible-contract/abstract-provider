@@ -17,10 +17,49 @@ export declare type NftUtxo = {
   outputIndex: number;
   tokenIndex: string;
   tokenAddress: string;
+  metaTxId: string;
+  metaOutputIndex: number;
+};
+
+export declare type Balance = {
+  balance: number;
+  pendingBalance: number;
+  utxoCount: number;
+};
+
+export declare type TokenBalance = {
+  balance: string;
+  pendingBalance: string;
+  utxoCount: number;
+  decimal: number;
+};
+
+export declare type Token = {
+  codehash: string;
+  genesis: string;
+  sensibleId: string;
+  name: string;
+  symbol: string;
+  decimal: number;
+  balance: string;
+  pendingBalance: string;
+};
+
+export declare type NftCollection = {
+  codehash: string;
+  genesis: string;
+  sensibleId: string;
+  count: string;
 };
 
 export interface Provider {
   network: "mainnet" | "testnet";
+  getRawTx(txid: string): Promise<string>;
+
+  broadcast(rawtx: string): Promise<string>;
+
+  getIsUtxoSpent(txId: string, outputIndex: number): Promise<boolean>;
+
   getUtxos(
     address: string,
     queryParams?: {
@@ -29,10 +68,9 @@ export interface Provider {
     }
   ): Promise<Utxo[]>;
 
-  getRawTx(txid: string): Promise<string>;
+  getBalance(address: string): Promise<Balance>;
 
-  broadcast(rawtx: string): Promise<string>;
-
+  //Token
   getTokenUtxos(
     codehash: string,
     genesis: string,
@@ -43,6 +81,21 @@ export interface Provider {
     }
   ): Promise<TokenUtxo[]>;
 
+  getTokenBalance(
+    codehash: string,
+    genesis: string,
+    address: string
+  ): Promise<TokenBalance>;
+
+  getTokenList(
+    address: string,
+    queryParams?: {
+      cursor: number;
+      size: number;
+    }
+  ): Promise<Token[]>;
+
+  //Nft
   getNftUtxos(
     codehash: string,
     genesis: string,
@@ -53,5 +106,17 @@ export interface Provider {
     }
   ): Promise<NftUtxo[]>;
 
-  getIsUtxoSpent(txId: string, outputIndex: number): Promise<boolean>;
+  getNftUtxo(
+    codehash: string,
+    genesis: string,
+    tokenIndex: string
+  ): Promise<NftUtxo>;
+
+  getNftCollectionList(
+    address: string,
+    queryParams?: {
+      cursor: number;
+      size: number;
+    }
+  ): Promise<NftCollection[]>;
 }
